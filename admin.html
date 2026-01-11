@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel | 1M Legacy</title>
+    <style>
+        body { background: #000; color: #fff; padding: 30px; font-family: 'Inter', sans-serif; }
+        .request-card { background: #111; border: 1px solid #333; padding: 15px; margin: 10px 0; display: flex; justify-content: space-between; align-items: center; border-radius: 8px; }
+        button { background: #00ffcc; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; border-radius: 4px; }
+        img { width: 50px; height: 50px; border-radius: 4px; object-fit: cover; }
+        #login-screen { text-align: center; margin-top: 100px; }
+        input { padding: 10px; width: 250px; background: #222; border: 1px solid #444; color: white; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div id="login-screen">
+        <h1>Admin Access</h1>
+        <input type="password" id="pass" placeholder="Enter Password"><br>
+        <button onclick="checkPass()">Login</button>
+    </div>
+
+    <div id="admin-content" style="display:none;">
+        <h1>Pending Approvals</h1>
+        <div id="list"></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script>
+        function checkPass() {
+            const p = document.getElementById('pass').value;
+            if(p === "KAWSARahmed22@@") {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('admin-content').style.display = 'block';
+                loadData();
+            } else { alert("Wrong Password!"); }
+        }
+
+        firebase.initializeApp({databaseURL: "https://m-legacy-5cf2b-default-rtdb.firebaseio.com/"});
+        const db = firebase.database();
+
+        function loadData() {
+            db.ref('pending').on('value', (snapshot) => {
+                const listDiv = document.getElementById('list');
+                listDiv.innerHTML = "";
+                snapshot.forEach((child) => {
+                    const data = child.val();
+                    listDiv.innerHTML += `
+                        <div class="request-card">
+                            <img src="${data.imageUrl}">
+                            <div><strong>Pos:</strong> ${data.pixelKey}</div>
+                            <button onclick="approve('${child.key}', '${data.pixelKey}', '${data.imageUrl}', '${data.siteUrl}')">APPROVE</button>
+                        </div>`;
+                });
+            });
+        }
+
+        function approve(id, key, img, url) {
+            db.ref('pixels/' + key).set({ imageUrl: img, link: url }).then(() => {
+                db.ref('pending/' + id).remove();
+                alert("Published Successfully!");
+            });
+        }
+    </script>
+</body>
+</html>
