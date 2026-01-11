@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1M LEGACY | Official Billboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+</head>
+<body>
+<div id="top-bar">
+    <div class="header-container">
+        <div class="social-icons">
+            <a href="https://www.facebook.com/1MLegacyOfficial" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/1mlegacyofficial/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://x.com/MLegacyOfficial" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        </div>
+        <div class="brand-section">
+            <h1 class="hover-glow">1M LEGACY</h1>
+            <div class="header-payment-info">
+                <span><i class="fas fa-id-card"></i> UID: 912221034</span> | 
+                <span><i class="fas fa-wallet"></i> USDT: TTapBkTqrDnz...</span>
+            </div>
+        </div>
+        <div class="right-panel">
+            <div class="counter-box">
+                <div>SOLD: <span id="sold-count" class="sold">0</span></div>
+                <div>AVAIL: <span class="avail">1M</span></div>
+            </div>
+            <a href="javascript:void(0)" class="buy-now-btn" onclick="openPayment()">BUY SPOT</a>
+        </div>
+    </div>
+</div>
+<a href="https://wa.me/8801576940717" class="floating-wa" target="_blank">
+    <i class="fab fa-whatsapp"></i> <span>Support</span>
+</a>
+<div id="payment-modal" class="modal">
+    <h2 class="hover-glow" style="font-size: 18px;">SELECT PAYMENT</h2>
+    <div class="payment-options">
+        <div class="pay-card">
+            <i class="fas fa-id-badge"></i>
+            <h3>Binance UID</h3>
+            <p>912221034</p>
+            <button class="mini-copy" onclick="copyText('912221034')">Copy UID</button>
+        </div>
+        <div class="pay-card">
+            <i class="fas fa-shield-alt"></i>
+            <h3>USDT (TRC20)</h3>
+            <p>TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6</p>
+            <button class="mini-copy" onclick="copyText('TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6')">Copy Address</button>
+        </div>
+    </div>
+    <button class="confirm-btn" onclick="window.open('https://wa.me/8801576940717')">CONFIRM VIA WHATSAPP</button>
+    <p onclick="closePayment()" style="color:#444; font-size:12px; margin-top:15px; cursor:pointer;">Close Window</p>
+</div>
+<div id="overlay" onclick="closePayment()"></div>
+<canvas id="billboardCanvas"></canvas>
+<script src="script.js"></script>
+</body>
+</html>
