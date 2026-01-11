@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Pixel | 1M Legacy</title>
+    <style>
+        body { background: #050505; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .form-box { background: #111; padding: 30px; border-radius: 10px; width: 350px; border: 1px solid #00ffcc; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #444; color: white; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #00ffcc; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; }
+        p { font-size: 11px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="form-box">
+        <h2 style="color: #00ffcc;">Submit Your Pixel</h2>
+        <p>Upload image to ImgBB and paste the "Direct Link" below.</p>
+        <input type="text" id="pKey" placeholder="Position (e.g. 500_500)">
+        <input type="text" id="pImg" placeholder="Direct Image Link">
+        <input type="text" id="pUrl" placeholder="Your Website (https://...)">
+        <button onclick="submitOrder()">SUBMIT FOR APPROVAL</button>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script>
+        firebase.initializeApp({databaseURL: "https://m-legacy-5cf2b-default-rtdb.firebaseio.com/"});
+        function submitOrder() {
+            const key = document.getElementById('pKey').value;
+            const img = document.getElementById('pImg').value;
+            if(!key || !img) { alert("Please fill all fields!"); return; }
+            firebase.database().ref('pending/' + Date.now()).set({
+                pixelKey: key, imageUrl: img, siteUrl: document.getElementById('pUrl').value
+            }).then(() => { alert("Submitted! We will approve after checking payment."); window.location.reload(); });
+        }
+    </script>
+</body>
+</html>
